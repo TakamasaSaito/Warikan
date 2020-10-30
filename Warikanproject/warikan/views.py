@@ -30,6 +30,11 @@ class AddDetail(CreateView):
     fields = ('memberID','title','price')
     success_url = reverse_lazy('memberlist')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['memberID'] = self.kwargs['pk']
+        return context
+
 class DetailList(ListView):
     template_name = 'detaillist.html'
     model = DetailModel
