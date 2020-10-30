@@ -4,7 +4,7 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
         <h1 class="display-4">WarikanList</h1>
-        <p class="lead">WarikanListを作りましょう/p>
+        <p class="lead">WarikanListを作りましょう</p>
         </div>
     </div>
 {% endblock %}
@@ -14,14 +14,14 @@
         <a href="{% url 'addmember' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">メンバー追加</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">
-                <p>{{ item.membername }}：合計○○円（{{ data_count }}件）</p>
+                <p>{{ item.membername }}： 合計{{ item.sum_price }}円（{{ item.cnt }}件）</p>
                 <a href="{% url 'adddetail' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">支払追加</a>
                 <a href="{% url 'detaillist' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">支払詳細</a>
             </div>
         {% endfor %}
         <div class="alert alert-secondary" role="alert">
             <p class="text-right">合計：{{ data_sum.price__sum }}円</p>
-            <p class="text-right">ひとりあたり：○○円</p>
+            <p class="text-right">ひとりあたり：{{ data_per }}円</p>
         </div>
     </div>
 {% endblock %}

@@ -18,10 +18,15 @@ class MemberList(ListView):
         context = super().get_context_data(**kwargs)
         data_count = DetailModel.objects.count()
         data_sum = DetailModel.objects.all().aggregate(Sum('price'))
-        # data_per = data_sum // data_count
+        data_list = MemberModel.objects.raw('SELECT warikan.*, ifnull(smr_detail.cnt,0 ) as cnt,ifnull(smr_detail.sum_price,0 ) as sum_price FROM warikan_membermodel as warikan left join (select memberID_id,count(*) as cnt,sum(price) as sum_price from warikan_detailmodel) as smr_detail  on smr_detail.memberID_id = warikan.id')
+        context['object_list'] = data_list
+        if 0 < data_sum['price__sum']:
+            data_per = data_sum['price__sum'] // data_count
+        else:
+            data_per = 0
         context['data_count'] = data_count
         context['data_sum'] = data_sum
-        # context['data_per'] = data_per
+        context['data_per'] = data_per
         return context
 
 class AddDetail(CreateView):
