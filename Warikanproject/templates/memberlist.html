@@ -14,7 +14,7 @@
         <a href="{% url 'addmember' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">メンバー追加</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">
-                <p>{{ item.membername }}： 合計{{ item.sum_price }}円（{{ item.cnt }}件）</p>
+                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> 合計{{ item.sum_price }}円（{{ item.cnt }}件）</p>
                 <a href="{% url 'adddetail' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">支払追加</a>
                 <a href="{% url 'detaillist' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">支払詳細</a>
             </div>
