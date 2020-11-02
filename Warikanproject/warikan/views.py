@@ -107,7 +107,8 @@ class Division(ListView):
                                                             sum(price) as sum_price\
                                                         from warikan_detailmodel\
                                                         group by memberID_id) as smr_detail\
-                                                        on smr_detail.memberID_id = warikan.id'
+                                                        on smr_detail.memberID_id = warikan.id\
+                                             where tripID_id = %s' ,[self.kwargs['pk']]
                                             )
         context['object_list'] = data_list
         if data_sum['price__sum'] is not None and 0 < data_sum['price__sum']:
