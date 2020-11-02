@@ -2,13 +2,16 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import MemberModel, DetailModel ,PictureModel, TripModel
 from django.urls import reverse_lazy
+from django.urls import reverse
 from django.db.models import Sum
 
 class AddMember(CreateView):
     template_name = 'addmember.html'
     model = MemberModel
     fields = ('membername','pictureID','tripID',)
-    success_url = reverse_lazy('memberlist')
+
+    def get_success_url(self):
+        return reverse('memberlist',kwargs={'pk': self.object.tripID.id})
 
 class MemberList(ListView):
     template_name = 'memberlist.html'
@@ -16,8 +19,8 @@ class MemberList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_count = DetailModel.objects.count()
-        data_sum = DetailModel.objects.all().aggregate(Sum('price'))
+        data_count = DetailModel.objects.filter(tripID=self.kwargs['pk']).count()
+        data_sum = DetailModel.objects.filter(tripID=self.kwargs['pk']).aggregate(Sum('price'))
         data_list = MemberModel.objects.raw('SELECT \
                                                 warikan.*,\
                                                 ifnull(smr_detail.cnt,0 ) as cnt,\
@@ -29,7 +32,8 @@ class MemberList(ListView):
                                                             sum(price) as sum_price\
                                                         from warikan_detailmodel\
                                                         group by memberID_id) as smr_detail\
-                                                        on smr_detail.memberID_id = warikan.id'
+                                                        on smr_detail.memberID_id = warikan.id\
+                                             where tripID_id = %s' ,[self.kwargs['pk']]
                                             )
         context['object_list'] = data_list
         if data_sum['price__sum'] is not None and 0 < data_sum['price__sum']:
@@ -45,7 +49,9 @@ class AddDetail(CreateView):
     template_name = 'adddetail.html'
     model = DetailModel
     fields = ('memberID','title','price','tripID',)
-    success_url = reverse_lazy('memberlist')
+    
+    def get_success_url(self):
+        return reverse('memberlist',kwargs={'pk': self.object.tripID.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,6 +66,7 @@ class DetailList(ListView):
         context = super().get_context_data(**kwargs)
         data_list = DetailModel.objects.filter(memberID=self.kwargs['pk'])
         context['object_list'] = data_list
+        context['tripID'] = self.kwargs['pk']
         return context
 
 class DetailUpdate(UpdateView):

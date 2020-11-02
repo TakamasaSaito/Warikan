@@ -5,7 +5,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 
 urlpatterns = [
-    path('memberlist/', MemberList.as_view(),name='memberlist'),
+    path('memberlist/<int:pk>', MemberList.as_view(),name='memberlist'),
     path('detaillist/<int:pk>', DetailList.as_view(),name='detaillist'),
     path('addmember/', AddMember.as_view(),name='addmember'),
     path('adddetail/<int:pk>', AddDetail.as_view(),name='adddetail'),
