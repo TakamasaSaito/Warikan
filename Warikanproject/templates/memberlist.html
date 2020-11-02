@@ -11,7 +11,9 @@
 
 {% block content %}
     <div class='container'>
+        <a href="{% url 'triplist' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">旅リストへ</a>
         <a href="{% url 'addmember' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">メンバー追加</a>
+        <a href="{% url 'addpicture' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">写真追加</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">
                 <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> 合計{{ item.sum_price }}円（{{ item.cnt }}件）</p>
@@ -19,9 +21,10 @@
                 <a href="{% url 'detaillist' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">支払詳細</a>
             </div>
         {% endfor %}
-        <div class="alert alert-secondary" role="alert">
+        <div class="alert alert-success" role="alert">
             <p class="text-right">合計：{{ data_sum.price__sum }}円</p>
             <p class="text-right">ひとりあたり：{{ data_per }}円</p>
         </div>
+        <a href="{% url 'division' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">精算</a>
     </div>
 {% endblock %}

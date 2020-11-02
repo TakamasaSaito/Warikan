@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'warikan',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/memberlist/'
+MEDIA_URL1 = '/memberlist/'
+MEDIA_URL2 = '/division/'
 
 MEDIA_ROOT = BASE_DIR

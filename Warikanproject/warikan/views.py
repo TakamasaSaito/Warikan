@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .models import WarikanModel, MemberModel, DetailModel ,PictureModel
+from .models import MemberModel, DetailModel ,PictureModel, TripModel
 from django.urls import reverse_lazy
 from django.db.models import Sum
 
 class AddMember(CreateView):
     template_name = 'addmember.html'
     model = MemberModel
-    fields = ('membername','pictureID',)
+    fields = ('membername','pictureID','tripID',)
     success_url = reverse_lazy('memberlist')
 
 class MemberList(ListView):
@@ -18,7 +18,19 @@ class MemberList(ListView):
         context = super().get_context_data(**kwargs)
         data_count = DetailModel.objects.count()
         data_sum = DetailModel.objects.all().aggregate(Sum('price'))
-        data_list = MemberModel.objects.raw('SELECT warikan.*, ifnull(smr_detail.cnt,0 ) as cnt,ifnull(smr_detail.sum_price,0 ) as sum_price FROM warikan_membermodel as warikan left join (select memberID_id,count(*) as cnt,sum(price) as sum_price from warikan_detailmodel group by memberID_id) as smr_detail  on smr_detail.memberID_id = warikan.id')
+        data_list = MemberModel.objects.raw('SELECT \
+                                                warikan.*,\
+                                                ifnull(smr_detail.cnt,0 ) as cnt,\
+                                                ifnull(smr_detail.sum_price,0 ) as sum_price\
+                                             FROM warikan_membermodel as warikan\
+                                             left join (select\
+                                                            memberID_id,\
+                                                            count(*) as cnt,\
+                                                            sum(price) as sum_price\
+                                                        from warikan_detailmodel\
+                                                        group by memberID_id) as smr_detail\
+                                                        on smr_detail.memberID_id = warikan.id'
+                                            )
         context['object_list'] = data_list
         if data_sum['price__sum'] is not None and 0 < data_sum['price__sum']:
             data_per = data_sum['price__sum'] // data_count
@@ -32,7 +44,7 @@ class MemberList(ListView):
 class AddDetail(CreateView):
     template_name = 'adddetail.html'
     model = DetailModel
-    fields = ('memberID','title','price')
+    fields = ('memberID','title','price','tripID',)
     success_url = reverse_lazy('memberlist')
 
     def get_context_data(self, **kwargs):
@@ -53,7 +65,7 @@ class DetailList(ListView):
 class DetailUpdate(UpdateView):
     template_name = 'detailupdate.html'
     model = DetailModel
-    fields = ('memberID','title','price')
+    fields = ('memberID','title','price','tripID',)
     def get_url_success(self):
         return reverse_lazy('detaillist',kwargs=self.kwargs['pk'])
 
@@ -68,3 +80,51 @@ class AddPicture(CreateView):
     model = PictureModel
     fields = ('picturename','url',)
     success_url = reverse_lazy('memberlist')
+
+class Division(ListView):
+    template_name = 'division.html'
+    model = MemberModel
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        data_count = DetailModel.objects.count()
+        data_sum = DetailModel.objects.all().aggregate(Sum('price'))
+        data_list = MemberModel.objects.raw('SELECT \
+                                                warikan.*,\
+                                                ifnull(smr_detail.cnt,0 ) as cnt,\
+                                                ifnull(smr_detail.sum_price,0 ) as sum_price\
+                                             FROM warikan_membermodel as warikan\
+                                             left join (select\
+                                                            memberID_id,\
+                                                            count(*) as cnt,\
+                                                            sum(price) as sum_price\
+                                                        from warikan_detailmodel\
+                                                        group by memberID_id) as smr_detail\
+                                                        on smr_detail.memberID_id = warikan.id'
+                                            )
+        context['object_list'] = data_list
+        if data_sum['price__sum'] is not None and 0 < data_sum['price__sum']:
+            data_per = data_sum['price__sum'] // data_count
+        else:
+            data_per = 0
+        context['data_count'] = data_count
+        context['data_sum'] = data_sum
+        context['data_per'] = data_per
+        detail_list = DetailModel.objects.all()
+        context['detail_list'] = detail_list
+        return context
+
+class AddTrip(CreateView):
+    template_name = 'addtrip.html'
+    model = TripModel
+    fields = ('tripname',)
+    success_url = reverse_lazy('triplist')
+
+class TripList(ListView):
+    template_name = 'triplist.html'
+    model = TripModel
+
+class TripDelete(DeleteView):
+    template_name = 'tripdelete.html'
+    model = TripModel
+    success_url = reverse_lazy('triplist')

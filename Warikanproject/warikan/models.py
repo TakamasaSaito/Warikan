@@ -1,13 +1,11 @@
 from django.db import models
 
-class WarikanModel(models.Model):
-    title = models.CharField(max_length=100)
-    price = models.IntegerField()
-    name = models.CharField(max_length=100)
+class TripModel(models.Model):
+    tripname = models.CharField(max_length=100)
 
-    # タイトルを返す
+    # 名前を返す
     def __str__(self):
-        return self.title
+        return self.tripname
 
 class PictureModel(models.Model):
     picturename = models.CharField(max_length=100)
@@ -17,16 +15,17 @@ class PictureModel(models.Model):
     def __str__(self):
         return self.picturename
 
-
 class MemberModel(models.Model):
     membername = models.CharField(max_length=100)
     pictureID = models.ForeignKey(PictureModel, on_delete=models.CASCADE)
+    tripID = models.ForeignKey(TripModel, on_delete=models.CASCADE)
 
     # 名前を返す
     def __str__(self):
         return self.membername
 
 class DetailModel(models.Model):
+    tripID = models.ForeignKey(TripModel, on_delete=models.CASCADE)
     memberID = models.ForeignKey(MemberModel, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     price = models.IntegerField()
