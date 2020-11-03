@@ -19,7 +19,7 @@ class MemberList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_count = DetailModel.objects.filter(tripID=self.kwargs['pk']).count()
+        data_count = MemberModel.objects.filter(tripID=self.kwargs['pk']).count()
         data_sum = DetailModel.objects.filter(tripID=self.kwargs['pk']).aggregate(Sum('price'))
         data_list = MemberModel.objects.raw('SELECT \
                                                 warikan.*,\
@@ -94,7 +94,7 @@ class Division(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_count = DetailModel.objects.count()
+        data_count = MemberModel.objects.count()
         data_sum = DetailModel.objects.all().aggregate(Sum('price'))
         data_list = MemberModel.objects.raw('SELECT \
                                                 warikan.*,\
