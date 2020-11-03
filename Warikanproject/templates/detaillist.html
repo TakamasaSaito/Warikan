@@ -11,7 +11,7 @@
 
 {% block content %}
     <div class='container'>
-        <a href="{% url 'memberlist' tripID %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">WarikanListへ</a>
+        <a href="{% url 'memberlist' object_list.0.tripID_id %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">WarikanListへ</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">
                 <p>{{ item.title }}：{{ item.price }}円（{{ item.memberID }}）</p>

@@ -64,9 +64,9 @@ class DetailList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_list = DetailModel.objects.filter(memberID=self.kwargs['pk'])
+        # data_list = DetailModel.objects.filter(memberID=self.kwargs['pk'])
+        data_list = DetailModel.objects.raw('select * from warikan_detailmodel where memberID_id = %s',[self.kwargs['pk']])        
         context['object_list'] = data_list
-        context['tripID'] = self.kwargs['pk']
         return context
 
 class DetailUpdate(UpdateView):
