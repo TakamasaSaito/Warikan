@@ -25,6 +25,6 @@
             <p class="text-right">合計：{{ data_sum.price__sum }}円</p>
             <p class="text-right">ひとりあたり：{{ data_per }}円</p>
         </div>
-        <a href="{% url 'division' object_list.0.tripID_id %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">精算</a>
+        <a href="{% url 'division' trip_pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">精算</a>
     </div>
 {% endblock %}

@@ -43,6 +43,7 @@ class MemberList(ListView):
         context['data_count'] = data_count
         context['data_sum'] = data_sum
         context['data_per'] = data_per
+        context['trip_pk'] = self.kwargs['pk']
         return context
 
 class AddDetail(CreateView):
