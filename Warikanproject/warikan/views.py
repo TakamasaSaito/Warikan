@@ -66,23 +66,24 @@ class DetailList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # data_list = DetailModel.objects.filter(memberID=self.kwargs['pk'])
         data_list = DetailModel.objects.raw('select * from warikan_detailmodel where memberID_id = %s',[self.kwargs['pk']])        
         context['object_list'] = data_list
+        data_list = MemberModel.objects.raw('select * from warikan_membermodel where id = %s',[self.kwargs['pk']])        
+        context['object_member'] = data_list
         return context
 
 class DetailUpdate(UpdateView):
     template_name = 'detailupdate.html'
     model = DetailModel
     fields = ('memberID','title','price','tripID',)
-    def get_url_success(self):
-        return reverse_lazy('detaillist',kwargs=self.kwargs['pk'])
+    def get_success_url(self):
+        return reverse('detaillist',kwargs={'pk': self.object.memberID.id})
 
 class DetailDelete(DeleteView):
     template_name = 'detaildelete.html'
     model = DetailModel
-    def get_url_success(self):
-        return reverse_lazy('detaillist',kwargs=self.kwargs['pk'])
+    def get_success_url(self):
+        return reverse('detaillist',kwargs={'pk': self.object.memberID.id})
 
 class AddPicture(CreateView):
     template_name = 'addpicture.html'
