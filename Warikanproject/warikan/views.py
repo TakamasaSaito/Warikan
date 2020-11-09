@@ -13,6 +13,12 @@ class AddMember(CreateView):
     def get_success_url(self):
         return reverse('memberlist',kwargs={'pk': self.object.tripID.id})
 
+class DeleteMember(DeleteView):
+    template_name = 'memberdelete.html'
+    model = MemberModel
+    def get_success_url(self):
+        return reverse('memberlist',kwargs={'pk': self.object.tripID.id})
+
 class MemberList(ListView):
     template_name = 'memberlist.html'
     model = MemberModel

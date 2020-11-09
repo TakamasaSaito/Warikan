@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MemberList, DetailList, AddMember, AddDetail, DetailUpdate, DetailDelete ,AddPicture, Division, AddTrip, TripList, TripDelete
+from .views import MemberList, DetailList, AddMember, DeleteMember, AddDetail, DetailUpdate, DetailDelete ,AddPicture, Division, AddTrip, TripList, TripDelete
 from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
@@ -8,6 +8,7 @@ urlpatterns = [
     path('memberlist/<int:pk>', MemberList.as_view(),name='memberlist'),
     path('detaillist/<int:pk>', DetailList.as_view(),name='detaillist'),
     path('addmember/', AddMember.as_view(),name='addmember'),
+    path('memberdelete/<int:pk>', DeleteMember.as_view(),name='memberdelete'),
     path('adddetail/<int:pk>', AddDetail.as_view(),name='adddetail'),
     path('detailupdate/<int:pk>', DetailUpdate.as_view(),name='detailupdate'),
     path('detaildelete/<int:pk>', DetailDelete.as_view(),name='detaildelete'),
