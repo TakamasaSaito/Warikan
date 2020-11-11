@@ -11,6 +11,7 @@
 {% block content %}
     <div class='container'>
         <a href="{% url 'addtrip' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">旅を作成</a>
+        <a href="{% url 'addpicture' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">写真追加</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">
                 <h3><span class = 'tabi_title'>{{ item.tripname }}</span></h3>
