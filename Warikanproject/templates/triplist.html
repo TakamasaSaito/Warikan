@@ -3,8 +3,7 @@
 {% block header %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">WarikanList</h1>
-            <p class="lead">WarikanListを作りましょう！</p>
+            <h1 class="display-4">Wariまさ</h1>
         </div>
     </div>
 {% endblock %}
@@ -14,7 +13,8 @@
         <a href="{% url 'addtrip' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">旅を作成</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">
-                <p>{{ item.tripname }}</p>
+                <h3><span class = 'tabi_title'>{{ item.tripname }}</span></h3>
+                <p><span class = 'tabi_info'>期間：{{ item.startdate|date:"Y/m/d" }} ~ {{ item.enddate|date:"Y/m/d" }}</span></p>
                 <a href="{% url 'memberlist' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">編集</a>
                 <a href="{% url 'tripdelete' item.pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">削除</a>
             </div>

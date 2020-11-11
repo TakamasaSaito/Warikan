@@ -1,7 +1,10 @@
 from django.db import models
+from django.utils import timezone
 
 class TripModel(models.Model):
     tripname = models.CharField(max_length=100)
+    startdate = models.DateField(default=timezone.now)
+    enddate = models.DateField(default=timezone.now)
 
     # 名前を返す
     def __str__(self):

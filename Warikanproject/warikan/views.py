@@ -56,14 +56,14 @@ class AddDetail(CreateView):
     template_name = 'adddetail.html'
     model = DetailModel
     fields = ('memberID','title','price','tripID',)
-    
+
     def get_success_url(self):
         return reverse('memberlist',kwargs={'pk': self.object.tripID.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['memberID'] = self.kwargs['pk']
-        data_list = MemberModel.objects.raw('select * from warikan_membermodel where id = %s',[self.kwargs['pk']])        
+        data_list = MemberModel.objects.raw('select * from warikan_membermodel where id = %s',[self.kwargs['pk']])
         context['object_list'] = data_list
         return context
 
@@ -73,9 +73,9 @@ class DetailList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_list = DetailModel.objects.raw('select * from warikan_detailmodel where memberID_id = %s',[self.kwargs['pk']])        
+        data_list = DetailModel.objects.raw('select * from warikan_detailmodel where memberID_id = %s',[self.kwargs['pk']])
         context['object_list'] = data_list
-        data_list = MemberModel.objects.raw('select * from warikan_membermodel where id = %s',[self.kwargs['pk']])        
+        data_list = MemberModel.objects.raw('select * from warikan_membermodel where id = %s',[self.kwargs['pk']])
         context['object_member'] = data_list
         return context
 
@@ -135,7 +135,7 @@ class Division(ListView):
 class AddTrip(CreateView):
     template_name = 'addtrip.html'
     model = TripModel
-    fields = ('tripname',)
+    fields = ('tripname','startdate','enddate',)
     success_url = reverse_lazy('triplist')
 
 class TripList(ListView):
