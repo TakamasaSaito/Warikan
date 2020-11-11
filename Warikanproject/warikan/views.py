@@ -41,6 +41,8 @@ class MemberList(ListView):
                                                         on smr_detail.memberID_id = warikan.id\
                                              where tripID_id = %s' ,[self.kwargs['pk']]
                                             )
+        trip_name = TripModel.objects.raw('SELECT * FROM warikan_tripmodel WHERE id = %s' ,[self.kwargs['pk']])
+        context['trip_name'] = trip_name
         context['object_list'] = data_list
         if data_sum['price__sum'] is not None and 0 < data_sum['price__sum']:
             data_per = data_sum['price__sum'] // data_count
