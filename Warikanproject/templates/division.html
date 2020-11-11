@@ -4,8 +4,13 @@
 {% block header %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-        <h1 class="display-4">WarikanList</h1>
-        <p class="lead">精算しましょう！</p>
+        <h1 class="display-4">Wariまさ</h1>
+        <p class="lead">
+            {% for item in object_list %}
+                {{ item.membername }} 
+            {% endfor %}
+            で楽しく精算しましょう！
+        </p>
         </div>
     </div>
 {% endblock %}
