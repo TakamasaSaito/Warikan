@@ -98,7 +98,7 @@ class AddPicture(CreateView):
     template_name = 'addpicture.html'
     model = PictureModel
     fields = ('picturename','url',)
-    success_url = reverse_lazy('memberlist')
+    success_url = reverse_lazy('triplist')
 
 class Division(ListView):
     template_name = 'division.html'
