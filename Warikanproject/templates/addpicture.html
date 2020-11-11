@@ -2,7 +2,8 @@
 
 {% block content %}
     <form action="" method='POST' enctype="multipart/form-data">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="保存する">
+        <p>タイトル：<input type='text' name='picturename' class="form-control"></p>
+        <p><input type='file' class="form-control-file" name='url'></p>
+        <input type="submit" class="btn btn-primary" value="保存する">
     </form>
 {% endblock content %}

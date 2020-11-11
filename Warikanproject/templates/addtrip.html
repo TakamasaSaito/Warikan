@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="form-group">
     <form action="" method='POST' enctype="multipart/form-data">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="保存する">
+        <p>旅名：<input type='text' name='tripname' class="form-control"></p>
+        <p>開始日：<input type='date' name='startdate' class="form-control"></p>
+        <p>終了日：<input type='date' name='enddate' class="form-control"></p>
+
+        <input class="btn btn-primary" type="submit" value="保存する">
     </form>
+</div>
 {% endblock content %}
