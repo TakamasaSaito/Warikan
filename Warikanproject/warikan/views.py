@@ -10,6 +10,11 @@ class AddMember(CreateView):
     model = MemberModel
     fields = ('membername','pictureID','tripID',)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trip_pk'] = self.kwargs['pk']
+        return context
+
     def get_success_url(self):
         return reverse('memberlist',kwargs={'pk': self.object.tripID.id})
 
@@ -143,6 +148,23 @@ class AddTrip(CreateView):
 class TripList(ListView):
     template_name = 'triplist.html'
     model = TripModel
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        data_list = TripModel.objects.raw('SELECT \
+                                                trip.*,\
+                                                ifnull(smr_member.membername,"") as membername\
+                                             FROM warikan_tripmodel as trip\
+                                             left join (select\
+                                                            tripID_id as tripID_id,\
+                                                            group_concat(membername) as membername\
+                                                        from warikan_membermodel\
+                                                        group by tripID_id) as smr_member\
+                                                        on smr_member.tripID_id = trip.id'
+                                            )
+        context['object_list'] = data_list
+        return context
+
 
 class TripDelete(DeleteView):
     template_name = 'tripdelete.html'

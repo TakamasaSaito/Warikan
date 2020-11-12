@@ -12,7 +12,7 @@
 {% block content %}
     <div class='container'>
         <a href="{% url 'triplist' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">旅リストへ</a>
-        <a href="{% url 'addmember' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">メンバー追加</a>
+        <a href="{% url 'addmember' trip_pk %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">メンバー追加</a>
         <a href="{% url 'addpicture' %}" class="btn btn-info" tabindex="-1" role="button" aria-disabled="true">写真追加</a>
         {% for item in object_list %}
             <div class="alert alert-secondary" role="alert">

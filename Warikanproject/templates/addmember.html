@@ -2,7 +2,9 @@
 
 {% block content %}
     <form action="" method='POST'>{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="作成する">
+        <p>名前：<input type='text' name='membername' class="form-control"></p>
+        <p>写真：{{form.pictureID}}</p>
+        <input type='hidden' name='tripID' value = {{trip_pk}}>
+        <input type="submit" value="作成する" class="btn btn-primary">
     </form>
 {% endblock content %}
