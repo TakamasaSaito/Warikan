@@ -21,11 +21,11 @@
         {% for item in object_list %}
             {% if item.sum_price|sub:data_per >= 0 %}
             <div class="alert alert-secondary" role="alert">
-                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> {{ item.sum_price|sub:data_per }}円<span class="get">もらう</span></p>
+                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> <span class="get">{{ item.sum_price|sub:data_per }}円もらう</span></p>
             </div>
             {% else %}
             <div class="alert alert-secondary" role="alert">
-                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> {{ item.sum_price|sub:data_per|mul:-1 }}円<span class="pay">はらう</span></p>
+                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> <span class="pay">{{ item.sum_price|sub:data_per|mul:-1 }}円はらう</span></p>
             </div>
             {% endif %}
         {% endfor %}
