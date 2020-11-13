@@ -3,8 +3,8 @@
 {% block header %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-        <h1 class="display-4"><span class = 'tabi_title'>{{ trip_name.0.tripname }}</span></h1>
-        <p><span class = 'tabi_info'>期間：{{ trip_name.0.startdate|date:"Y/m/d" }} ~ {{ trip_name.0.enddate|date:"Y/m/d" }}</span></p>
+            <h1 class="display-4"><span class = 'tabi_title'>{{ trip_name.0.tripname }}</span></h1>
+        <p><span class = 'tabi_info'>期間：{{ trip_name.0.startdate|date:"Y/m/d" }} 〜 {{ trip_name.0.enddate|date:"Y/m/d" }}</span></p>
         </div>
     </div>
 {% endblock %}
