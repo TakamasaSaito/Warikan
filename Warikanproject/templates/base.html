@@ -12,6 +12,50 @@
       position: relative;
     }
 
+    /* .display-4 {
+      animation: title-fade-in 2.5s ease 0s 1 normal running forwards;
+    }
+    @keyframes title-fade-in {
+      0% {
+        color: #fff;
+      }
+      50% {
+        color: #FFFFDD;
+      }
+      75% {
+        color: #EEFFFF;
+      }
+      100% {
+        color: #000;
+      }
+    } */
+
+    .typing {
+      display: flex;
+      justify-content: center;
+    }
+
+    .typing h1 {
+      font-size: 1.8em;
+      font-family: "Courier New", Consolas, monospace;
+      letter-spacing: 2px;
+      overflow: hidden;
+      white-space: nowrap;
+
+    }
+
+    .typing .main-title {
+      width: 0;
+      animation:
+        type 1.6s steps(9, end) 1000ms forwards;
+    }
+
+    @keyframes type {
+      to {
+        width: 190px;
+      }
+    }
+
     h2:after {
       content: "";
       position: absolute;
@@ -23,7 +67,7 @@
       background: repeating-linear-gradient(-45deg, #6ad1c8, #6ad1c8 2px, #fff 2px, #fff 4px);
     }
     .tabi_title {
-      color: #006400;
+      color: #191970;
     }
 
     .tabi_info {
@@ -32,7 +76,7 @@
       color: #800000;
     }
     .tabi_info_ele {
-      color: #0000CD;
+      color: #006400;
     }
     .pay{
       color: #FF6347;
