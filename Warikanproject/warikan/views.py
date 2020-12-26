@@ -4,6 +4,7 @@ from .models import MemberModel, DetailModel ,PictureModel, TripModel
 from django.urls import reverse_lazy
 from django.urls import reverse
 from django.db.models import Sum
+from logging import getLogger
 
 class AddMember(CreateView):
     template_name = 'addmember.html'
@@ -113,28 +114,34 @@ class Division(ListView):
         context = super().get_context_data(**kwargs)
         data_count = MemberModel.objects.filter(tripID=self.kwargs['pk']).count()
         data_sum = DetailModel.objects.filter(tripID=self.kwargs['pk']).aggregate(Sum('price'))
-        data_list = MemberModel.objects.raw('SELECT \
-                                                warikan.*,\
-                                                ifnull(smr_detail.cnt,0 ) as cnt,\
-                                                ifnull(smr_detail.sum_price,0 ) as sum_price\
-                                             FROM warikan_membermodel as warikan\
-                                             left join (select\
-                                                            memberID_id,\
-                                                            count(*) as cnt,\
-                                                            sum(price) as sum_price\
-                                                        from warikan_detailmodel\
-                                                        group by memberID_id) as smr_detail\
-                                                        on smr_detail.memberID_id = warikan.id\
-                                             where tripID_id = %s' ,[self.kwargs['pk']]
+        data_list = MemberModel.objects.raw('SELECT warikan.*,\
+                                                ifnull(smr_detail.sum_price,0) as sum_price,\
+                                                ifnull(smr_detail.sum_price,0)-(total_price/cnt_member) as pay_price\
+                                                FROM warikan_membermodel as warikan\
+                                            left join (select\
+                                                tripID_id,\
+                                                count(id) as cnt_member\
+                                                from warikan_membermodel\
+                                                group by tripID_id) as aaa\
+                                                on aaa.tripID_id = warikan.tripID_id\
+                                            left join (select\
+                                                tripID_id,\
+                                                sum(price) as total_price\
+                                                from warikan_detailmodel\
+                                                group by tripID_id) as bbb\
+                                                on bbb.tripID_id = warikan.tripID_id\
+                                            left join (select\
+                                                memberID_id,\
+                                                sum(price) as sum_price\
+                                                from warikan_detailmodel\
+                                                group by memberID_id) as smr_detail\
+                                                on smr_detail.memberID_id = warikan.id\
+                                                where warikan.tripID_id = %s' ,[self.kwargs['pk']]
                                             )
         context['object_list'] = data_list
-        if data_sum['price__sum'] is not None and 0 < data_sum['price__sum']:
-            data_per = data_sum['price__sum'] // data_count
-        else:
-            data_per = 0
-        context['data_count'] = data_count
-        context['data_sum'] = data_sum
-        context['data_per'] = data_per
+
+        # 次は誰にはらうかのロジックを作成    
+
         detail_list = DetailModel.objects.filter(tripID=self.kwargs['pk'])
         context['detail_list'] = detail_list
         return context

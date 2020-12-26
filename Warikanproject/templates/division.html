@@ -19,16 +19,19 @@
     <div class='container'>
         <h2>精算</h2>
         {% for item in object_list %}
-            {% if item.sum_price|sub:data_per >= 0 %}
+            {% if item.pay_price >= 0 %}
             <div class="alert alert-secondary" role="alert">
-                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> <span class="get">{{ item.sum_price|sub:data_per }}円もらう</span></p>
+                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> <span class="get">{{ item.pay_price }}円もらう</span></p>
             </div>
             {% else %}
             <div class="alert alert-secondary" role="alert">
-                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> <span class="pay">{{ item.sum_price|sub:data_per|mul:-1 }}円はらう</span></p>
+                <p><img src="{{ item.pictureID.url }}" width = 50> <span class="font-weight-bold">{{ item.membername }}</span> <span class="pay">{{ item.pay_price|mul:-1 }}円はらう</span></p>
             </div>
             {% endif %}
         {% endfor %}
+    {% for item in pay_list %}
+        {{ item.membername }}
+    {% endfor %}
         <h2>明細</h2>
         {% for item in detail_list %}
             <div class="alert alert-primary" role="alert">
